@@ -16,9 +16,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,17 +51,66 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InventoryApp() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = SCREEN_HOUSE) {
-        composable(TEST_SCREEN) { TestScreen(navController) }
-        composable(SCREEN_HOUSE) { ScreenHouse(navController) }
-        composable(SCREEN_WALK) { ScreenWalk(navController) }
-        composable(SCREEN_HOME) { ScreenHome(navController) }
-        composable(SCREEN_ATB) { ScreenAtb(navController) }
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(text = "Привет") },
+            colors = topAppBarColors(containerColor = Color.Green)
+        )
+    })
+    { padding ->
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = ADD_ITEM_SCREEN, //todo поменять на инвентори
+            modifier = Modifier.padding(padding)
+        ) {
+            composable(INVENTORY_SCREEN) { InventoryScreen(navController) }
+            composable(ADD_ITEM_SCREEN) { AddItemScreen(navController) }
+            composable(EDIT_ITEM_SCREEN) { EditItemScreen(navController) }
+            composable(ITEM_DETAILS_SCREEN) { ItemDetailsScreen(navController) }
+        }
     }
 }
+
+@Composable
+fun InventoryScreen(navController: NavHostController) {
+
+}
+
+@Composable
+fun AddItemScreen(navController: NavHostController) {
+    var name by rememberSaveable { mutableStateOf("") }
+    var surname by rememberSaveable { mutableStateOf("") }
+    var result by rememberSaveable { mutableStateOf("") }
+    Column {
+        TextField(value = name, onValueChange = { name = it })
+        TextField(value = surname, onValueChange = { surname = it })
+        Button(onClick = { result = "$name $surname" }) {
+            Text(text = "Анука что там будет")
+        }
+        Text(text = result, fontSize = 50.sp)
+    }
+}
+
+@Composable
+fun EditItemScreen(navController: NavHostController) {
+
+}
+
+@Composable
+fun ItemDetailsScreen(navController: NavHostController) {
+
+}
+
+const val INVENTORY_SCREEN = "Inventory"
+const val ADD_ITEM_SCREEN = "Add Item"
+const val EDIT_ITEM_SCREEN = "Edit Item"
+const val ITEM_DETAILS_SCREEN = "Item Details"
+
+
 
 const val TEST_SCREEN = "test_screen"
 const val SCREEN_HOUSE = "screen_house"
