@@ -45,57 +45,69 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun InventoryApp() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = SCREEN_1) {
+    NavHost(navController = navController, startDestination = SCREEN_HOUSE) {
         composable(TEST_SCREEN) { TestScreen(navController) }
-        composable(SCREEN_1) { Screen1(navController) }
-        composable(SCREEN_2) { Screen2(navController) }
-        composable(SCREEN_3) { Screen3(navController) }
+        composable(SCREEN_HOUSE) { ScreenHouse(navController) }
+        composable(SCREEN_WALK) { ScreenWalk(navController) }
+        composable(SCREEN_HOME) { ScreenHome(navController) }
+        composable(SCREEN_ATB) { ScreenAtb(navController) }
     }
 }
 
 const val TEST_SCREEN = "test_screen"
-const val SCREEN_1 = "screen_1"
-const val SCREEN_2 = "screen_2"
-const val SCREEN_3 = "screen_3"
+const val SCREEN_HOUSE = "screen_house"
+const val SCREEN_WALK = "screen_walk"
+const val SCREEN_HOME = "screen_home"
+const val SCREEN_ATB = "screen_atb"
 
 @Composable
-fun Screen1(navController: NavHostController) {
-    Column {
-        Text(text = "Экран 1", fontSize = 50.sp)
-        Button(onClick = { navController.navigate(SCREEN_2) }) {
-            Text(text = "Идем-ка на Экран 2")
+fun ScreenHouse(navController: NavHostController) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Мы в помещении", fontSize = 50.sp)
+        Button(onClick = { navController.navigate(SCREEN_WALK) }) {
+            Text(text = "Идем гулять!!")
+        }
+        Button(onClick = { navController.navigate(SCREEN_HOME) }) {
+            Text(text = "Нет, идем домой")
         }
     }
 }
 
 @Composable
-fun Screen2(navController: NavHostController) {
-    Column {
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Text(text = "Экран 2", fontSize = 50.sp)
-        Button(onClick = { navController.navigate(SCREEN_3) }) {
-            Text(text = "Пойдем-ка на Экран 3")
+fun ScreenWalk(navController: NavHostController) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Мы пришли на Балковскую", fontSize = 50.sp)
+        Button(onClick = { navController.navigate(SCREEN_HOME) }) {
+            Text(text = "Идем дальше")
+        }
+        Button(onClick = { navController.navigate(SCREEN_HOME) }) {
+            Text(text = "Едем на маршрутке домой")
+        }
+        Button(onClick = { navController.navigate(SCREEN_ATB) }) {
+            Text(text = "Идем в АТБ!!!!")
         }
     }
 }
 
 @Composable
-fun Screen3(navController: NavHostController) {
-    Column {
-        Text(text = "Экран 3", fontSize = 50.sp)
-        Text(text = "Экран 3", fontSize = 50.sp)
-        Text(text = "Экран 3", fontSize = 50.sp)
-        Button(onClick = { navController.navigate(TEST_SCREEN) }) {
-            Text(text = "Гоу на экран ТЕСТ!!!!")
+fun ScreenHome(navController: NavHostController) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Ура, мы добрались домой", fontSize = 50.sp)
+        Button(onClick = { navController.popBackStack(SCREEN_HOUSE, false) }) {
+            Text(text = "Начать приключение сначала)")
         }
     }
 }
 
+@Composable
+fun ScreenAtb(navController: NavHostController) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "УУ тут вкусняшки", fontSize = 50.sp)
+        Button(onClick = { navController.navigateUp() }) {
+            Text(text = "Выходим из АТБ")
+        }
+    }
+}
 
 @Composable
 fun TestScreen(navController: NavHostController) {
@@ -130,14 +142,11 @@ fun TestScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "Time:", fontSize = 14.sp)
             Spacer(modifier = Modifier.height(14.dp))
-
             Row {
                 Text(text = "30 Mar 2024", fontSize = 16.sp, fontWeight = W500)
                 Spacer(modifier = Modifier.weight(1F))
                 Text(text = "15:00 - 16:00", fontSize = 16.sp, fontWeight = W500)
             }
-
-
             Spacer(modifier = Modifier.height(10.5.dp))
             Text(text = "Timezone Kyiv, UTC+3", fontSize = 16.sp, color = Color(0xFFA9A9A9))
             Spacer(modifier = Modifier.height(24.dp))
