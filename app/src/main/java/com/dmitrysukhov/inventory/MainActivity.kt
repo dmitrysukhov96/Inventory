@@ -64,7 +64,7 @@ fun InventoryApp() {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = ADD_ITEM_SCREEN, //todo поменять на инвентори
+            startDestination = INVENTORY_SCREEN,
             modifier = Modifier.padding(padding)
         ) {
             composable(INVENTORY_SCREEN) { InventoryScreen(navController) }
@@ -77,7 +77,20 @@ fun InventoryApp() {
 
 @Composable
 fun InventoryScreen(navController: NavHostController) {
-
+    var city by rememberSaveable { mutableStateOf("") }
+    var result by rememberSaveable { mutableStateOf("") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text(text = "Введите ваш город")
+        TextField(value = city, onValueChange = { city = it })
+        Button(onClick = { result = "Ваш город - $city" }) {
+            Text(text = "Вывести результат")
+        }
+        Text(text = result)
+    }
 }
 
 @Composable
