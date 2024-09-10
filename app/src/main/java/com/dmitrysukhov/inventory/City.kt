@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
+const val CITY_SCREEN = "City screen"
+
 @Composable
 fun CityScreen(navController: NavHostController) {
     var city by rememberSaveable { mutableStateOf("") }
