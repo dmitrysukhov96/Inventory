@@ -3,7 +3,6 @@ package com.dmitrysukhov.inventory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -96,12 +94,12 @@ val MAIN_SCREEN = "Main screen"
 
 @Composable
 fun MainScreen(navController: NavHostController) {
-    Image(
-        painter = painterResource(R.drawable.img_1),
-        contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
-    )
+//    Image(
+//        painter = painterResource(R.drawable.img_1),
+//        contentDescription = null,
+//        modifier = Modifier.fillMaxSize(),
+//        contentScale = ContentScale.Crop
+//    )
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
