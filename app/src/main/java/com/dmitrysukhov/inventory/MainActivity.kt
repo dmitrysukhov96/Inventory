@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -78,14 +81,14 @@ fun MyApp() {
             composable(ADD_ITEM_SCREEN) { AddItemScreen() }
             composable(EDIT_ITEM_SCREEN) { EditItemScreen() }
             composable(ITEM_DETAILS_SCREEN) { ItemDetailsScreen() }
-
             composable(SCREEN_HOUSE) { ScreenHouse(navController) }
             composable(SCREEN_ATB) { ScreenAtb(navController) }
             composable(SCREEN_HOME) { ScreenHome(navController) }
             composable(SCREEN_WALK) { ScreenWalk(navController) }
-
             composable(FON_SCREEN) { FonScreen() }
             composable(SVETOFOR_SCREEN) { SvetoforScreen() }
+            composable(PRIMER_SCREEN) { PrimerScreen() }
+            composable(LIST_SCREEN) { ListScreen() }
         }
     }
 }
@@ -94,12 +97,9 @@ val MAIN_SCREEN = "Main screen"
 
 @Composable
 fun MainScreen(navController: NavHostController) {
-//    Image(
-//        painter = painterResource(R.drawable.img_1),
-//        contentDescription = null,
-//        modifier = Modifier.fillMaxSize(),
-//        contentScale = ContentScale.Crop
-//    )
+    Box(Modifier.fillMaxSize()) {
+        Text(text = "Привет Костя", Modifier.align(Alignment.BottomStart).padding(16.dp), fontSize = 20.sp)
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,6 +122,9 @@ fun MainScreen(navController: NavHostController) {
         }
         Button(onClick = { navController.navigate(SVETOFOR_SCREEN) }) {
             Text(text = "Светофор")
+        }
+        Button(onClick = { navController.navigate(LIST_SCREEN) }) {
+            Text(text = "Список")
         }
     }
 }
