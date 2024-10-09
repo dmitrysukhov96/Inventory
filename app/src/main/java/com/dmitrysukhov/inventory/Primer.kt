@@ -18,10 +18,6 @@ data class Mebel(
     var price: Long
 )
 
-//Одежда - Тима
-//книги - Сава
-//игрушки - Марк
-
 @Composable
 fun PrimerScreen() {
     Column(Modifier.fillMaxSize()) {
