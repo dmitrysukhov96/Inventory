@@ -18,6 +18,8 @@ data class Mebel(
     var price: Long
 )
 
+//test 2
+
 @Composable
 fun PrimerScreen() {
     Column(Modifier.fillMaxSize()) {
