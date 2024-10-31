@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -39,7 +40,7 @@ fun MyApp() {
     val currentRoute = currentBackStackEntry?.destination?.route
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text(text = currentRoute ?: "") },
+            title = { Text(text = currentRoute ?: "", color = Color.White) },
             navigationIcon = {
                 if (navController.previousBackStackEntry != null) {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -50,7 +51,7 @@ fun MyApp() {
                     }
                 }
             },
-            colors = topAppBarColors(containerColor = Color.Green)
+            colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
         )
     }, floatingActionButton = {
         if (currentRoute == INVENTORY_SCREEN)
@@ -65,7 +66,6 @@ fun MyApp() {
         ) {
             composable(INVENTORY_SCREEN) { InventoryScreen() }
             composable(ADD_ITEM_SCREEN) { AddItemScreen() }
-            composable(EDIT_ITEM_SCREEN) { EditItemScreen() }
             composable(ITEM_DETAILS_SCREEN) { ItemDetailsScreen() }
         }
     }

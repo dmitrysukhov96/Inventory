@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -18,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,31 +65,49 @@ fun InventoryScreen() {
 @Composable
 fun AddItemScreen() {
     var name by rememberSaveable { mutableStateOf("") }
-    var surname by rememberSaveable { mutableStateOf("") }
-    var result by rememberSaveable { mutableStateOf("") }
-    Column {
-        TextField(value = name, onValueChange = { name = it })
-        TextField(value = surname, onValueChange = { surname = it })
-        Button(onClick = { result = "$name $surname" }) {
-            Text(text = "Анука что там будет")
-        }
-        Text(text = result, fontSize = 50.sp)
+    var price by rememberSaveable { mutableStateOf("") }
+    var quantity by rememberSaveable { mutableStateOf("") }
+    Column(modifier = Modifier.padding(16.dp)) {
+        TextField(name, { name = it }, modifier = Modifier.fillMaxWidth(), label = {
+            Text("Item Name")
+        })
+        Spacer(Modifier.height(16.dp))
+        TextField(
+            value = price,
+            onValueChange = { price = it },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            label = { Text("Item Price") }
+        )
+        Spacer(Modifier.height(16.dp))
+        TextField(
+            value = quantity,
+            onValueChange = { quantity = it },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Quantity in Stock") }
+        )
+        Spacer(Modifier.height(32.dp))
+        Button({}, modifier = Modifier.fillMaxWidth()) { Text("Save") }
     }
 }
 
 @Composable
-fun EditItemScreen() {
-
-}
-
-@Composable
 fun ItemDetailsScreen() {
-
+    Column(Modifier.padding(16.dp)) {
+        Text("Asus Laptop", fontSize = 16.sp)
+        Spacer(Modifier.height(16.dp))
+        Text("$5,400.00", fontSize = 16.sp)
+        Spacer(Modifier.height(16.dp))
+        Text("Quantity in Stock: 30", fontSize = 16.sp)
+        Spacer(Modifier.height(16.dp))
+        Button({}, modifier = Modifier.fillMaxWidth()) { Text("Sell") }
+        OutlinedButton({}, modifier = Modifier.fillMaxWidth()) { Text("Delete") }
+    }
 }
 
 const val INVENTORY_SCREEN = "Inventory"
 const val ADD_ITEM_SCREEN = "Add Item"
-const val EDIT_ITEM_SCREEN = "Edit Item"
 const val ITEM_DETAILS_SCREEN = "Item Details"
 
 @Preview(showSystemUi = true)
