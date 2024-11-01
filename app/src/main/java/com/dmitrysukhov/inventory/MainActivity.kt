@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -38,7 +39,9 @@ fun MyApp() {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
-    Scaffold(topBar = {
+    val viewModel: ItemViewModel = viewModel()
+    Scaffold(
+        topBar = {
         TopAppBar(
             title = { Text(text = currentRoute ?: "", color = Color.White) },
             navigationIcon = {
@@ -46,27 +49,34 @@ fun MyApp() {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
+                            contentDescription = null, tint = Color.White
                         )
                     }
                 }
             },
             colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
         )
-    }, floatingActionButton = {
+        },
+        floatingActionButton = {
         if (currentRoute == INVENTORY_SCREEN)
-            Button({ navController.navigate(ADD_ITEM_SCREEN) }) {
-                Icon(painter = painterResource(R.drawable.add), contentDescription = null)
-            }
-    })
+            Button({
+                viewModel.selectedItem = null
+                navController.navigate(ADD_EDIT_ITEM_SCREEN)
+            }) { Icon(painter = painterResource(R.drawable.add), contentDescription = null) }
+        else if (currentRoute == ITEM_DETAILS_SCREEN)
+            Button({
+                navController.navigate(ADD_EDIT_ITEM_SCREEN)
+            }) { Icon(painter = painterResource(R.drawable.edit), contentDescription = null) }
+
+        })
     { padding ->
         NavHost(
             navController = navController, startDestination = INVENTORY_SCREEN,
             modifier = Modifier.padding(padding)
         ) {
-            composable(INVENTORY_SCREEN) { InventoryScreen() }
-            composable(ADD_ITEM_SCREEN) { AddItemScreen() }
-            composable(ITEM_DETAILS_SCREEN) { ItemDetailsScreen() }
+            composable(INVENTORY_SCREEN) { InventoryScreen(navController, viewModel) }
+            composable(ADD_EDIT_ITEM_SCREEN) { AddEditItemScreen(navController, viewModel) }
+            composable(ITEM_DETAILS_SCREEN) { ItemDetailsScreen(navController, viewModel) }
         }
     }
 }
