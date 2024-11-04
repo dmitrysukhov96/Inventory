@@ -7,9 +7,8 @@ import androidx.room.Room
 import kotlinx.coroutines.launch
 
 class ItemViewModel(application: Application) : AndroidViewModel(application) {
-    private val database: AppDatabase = Room.databaseBuilder(
-        application, AppDatabase::class.java, "item_db"
-    ).build()
+    private val database: AppDatabase =
+        Room.databaseBuilder(application, AppDatabase::class.java, "item_db").build()
     val itemDao = database.itemDao()
     var selectedItem: Item? = null
 
