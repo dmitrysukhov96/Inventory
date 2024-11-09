@@ -18,8 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -29,11 +29,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 
 @Composable
 fun InventoryScreen(navController: NavHostController, viewModel: ItemViewModel) {
-    val allItems by viewModel.allItems.collectAsState(listOf())
+    val allItems by viewModel.allItems.collectAsStateWithLifecycle(listOf())
     Column(
         Modifier
             .padding(16.dp)
@@ -75,8 +76,7 @@ fun ItemView(item: Item, onClick: (Item) -> Unit) {
     Row(
         Modifier
             .height(48.dp)
-            .clickable { onClick(item) },
-        verticalAlignment = Alignment.CenterVertically
+            .clickable { onClick(item) }
     ) {
         Text(
             item.name, Modifier
@@ -127,26 +127,25 @@ fun AddEditItemScreen(navController: NavHostController, viewModel: ItemViewModel
             label = { Text("Quantity in Stock") }
         )
         Spacer(Modifier.height(32.dp))
-        Button(onClick = {
+        Button({
             val newItem = if (viewModel.selectedItem != null)
                 viewModel.selectedItem!!.copy(
                     name = name, price = price.toLongOrNull() ?: 0,
                     quantity = quantity.toLongOrNull() ?: 0
-                )
-            else Item(
+                ) else Item(
                 id = 0, name = name, price = price.toLongOrNull() ?: 0,
                 quantity = quantity.toLongOrNull() ?: 0
             )
-            viewModel.insertItem(newItem) // Вставка элемента в БД
+            viewModel.insertItem(newItem)
             if (viewModel.selectedItem != null) viewModel.selectedItem = newItem
-            navController.popBackStack() // Возврат на предыдущий экран
+            navController.popBackStack()
         }, modifier = Modifier.fillMaxWidth()) { Text("Save") }
     }
 }
 
 @Composable
 fun ItemDetailsScreen(navController: NavHostController, viewModel: ItemViewModel) {
-    var quantity by rememberSaveable { mutableStateOf(viewModel.selectedItem?.quantity ?: 0) }
+    var quantity by rememberSaveable { mutableLongStateOf(viewModel.selectedItem?.quantity ?: 0) }
     LaunchedEffect(Unit) { quantity = viewModel.selectedItem?.quantity ?: 0 }
     Column(Modifier.padding(16.dp)) {
         Text(viewModel.selectedItem?.name ?: "", fontSize = 16.sp)
@@ -173,5 +172,5 @@ fun ItemDetailsScreen(navController: NavHostController, viewModel: ItemViewModel
 }
 
 const val INVENTORY_SCREEN = "Inventory"
-const val ADD_EDIT_ITEM_SCREEN = "Add Item"
+const val ADD_EDIT_ITEM_SCREEN = "Add/Edit Item"
 const val ITEM_DETAILS_SCREEN = "Item Details"

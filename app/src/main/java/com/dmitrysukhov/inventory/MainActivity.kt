@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,45 +29,41 @@ import androidx.navigation.compose.rememberNavController
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MyApp() }
+        setContent { InventoryApp() }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyApp() {
+fun InventoryApp() {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
     val viewModel: ItemViewModel = viewModel()
     Scaffold(
         topBar = {
-        TopAppBar(
-            title = { Text(text = currentRoute ?: "", color = Color.White) },
-            navigationIcon = {
-                if (navController.previousBackStackEntry != null) {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null, tint = Color.White
-                        )
+            TopAppBar(
+                title = { Text(text = currentRoute ?: "", color = Color.White) },
+                navigationIcon = {
+                    if (navController.previousBackStackEntry != null) {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null, tint = Color.White
+                            )
+                        }
                     }
-                }
-            },
-            colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
-        )
-        },
-        floatingActionButton = {
-        if (currentRoute == INVENTORY_SCREEN)
-            Button({
+                },
+                colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
+            )
+        }, floatingActionButton = {
+            if (currentRoute == INVENTORY_SCREEN) FloatingActionButton({
                 viewModel.selectedItem = null
                 navController.navigate(ADD_EDIT_ITEM_SCREEN)
             }) { Icon(painter = painterResource(R.drawable.add), contentDescription = null) }
-        else if (currentRoute == ITEM_DETAILS_SCREEN)
-            Button({
+            if (currentRoute == ITEM_DETAILS_SCREEN) FloatingActionButton({
                 navController.navigate(ADD_EDIT_ITEM_SCREEN)
             }) { Icon(painter = painterResource(R.drawable.edit), contentDescription = null) }
-
         })
     { padding ->
         NavHost(

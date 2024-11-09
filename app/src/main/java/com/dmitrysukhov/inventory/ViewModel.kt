@@ -11,13 +11,10 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
         Room.databaseBuilder(application, AppDatabase::class.java, "item_db").build()
     val itemDao = database.itemDao()
     var selectedItem: Item? = null
-
     val allItems = itemDao.getAllItems()
 
     // Добавить новый элемент
-    fun insertItem(item: Item) = viewModelScope.launch {
-        itemDao.insert(item)
-    }
+    fun insertItem(item: Item) = viewModelScope.launch { itemDao.insert(item) }
 
     // Удалить элемент по ID
     fun deleteItemById(itemId: Long) = viewModelScope.launch {
