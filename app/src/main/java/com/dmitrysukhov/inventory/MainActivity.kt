@@ -89,6 +89,7 @@ fun MyApp() {
             composable(SVETOFOR_SCREEN) { SvetoforScreen() }
             composable(PRIMER_SCREEN) { PrimerScreen() }
             composable(LIST_SCREEN) { ListScreen() }
+            composable(GUESS_SCREEN) { GuessScreen() }
         }
     }
 }
@@ -125,6 +126,9 @@ fun MainScreen(navController: NavHostController) {
         }
         Button(onClick = { navController.navigate(LIST_SCREEN) }) {
             Text(text = "Список")
+        }
+        Button(onClick = { navController.navigate(GUESS_SCREEN) }) {
+            Text(text = "Guess")
         }
     }
 }
